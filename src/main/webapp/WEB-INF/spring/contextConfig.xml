@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+   	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   	xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	 	http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/jdbc
+		http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+		http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+        
+	<context:component-scan base-package="pl.noname.stacjabenzynowa" />
+
+	<mvc:resources mapping="/static/**" location="/WEB-INF/static/"/>
+	<mvc:resources mapping="/crossdomain.xml" location="/"/>
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!-- Data Source Declaration -->
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+	
+	<beans profile="test">
+		<!--
+		<jdbc:initialize-database data-source="dataSource">
+	    	<jdbc:script location="classpath:sql/types.sql" />
+		</jdbc:initialize-database>	
+		<jdbc:initialize-database data-source="dataSource">
+	    	<jdbc:script location="classpath:sql/tables.sql"/>
+		</jdbc:initialize-database>	
+		<jdbc:initialize-database data-source="dataSource">
+	    	<jdbc:script location="classpath:sql/functions.sql"/>
+		</jdbc:initialize-database>	
+		<jdbc:initialize-database data-source="dataSource">
+	    	<jdbc:script location="classpath:sql/data.sql"/>
+		</jdbc:initialize-database>	
+		-->
+		<bean id="applicationProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		    <property name="location" value="classpath:env/test.properties"/>
+		</bean>
+	</beans>
+
+	<beans profile="dev">
+		<bean id="applicationProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	    	<property name="location" value="classpath:env/dev.properties"/>
+		</bean>
+	</beans>
+	
+	<beans profile="prod">
+		<bean id="applicationProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		    <property name="location" value="classpath:env/prod.properties"/>
+		</bean>	
+	</beans>
+	
+	<beans profile="dev,prod,test">	
+		<!-- Session Factory Declaration -->
+		<bean id="customNamingStrategy" class="pl.noname.stacjabenzynowa.util.CustomNamingStrategy"/>
+		
+		<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+			<property name="dataSource" ref="dataSource" />
+			<property name="namingStrategy" ref="customNamingStrategy"/>
+			<property name="annotatedClasses">
+					<list>
+						<value>pl.noname.stacjabenzynowa.persistance.AclPrivilege</value>
+						<value>pl.noname.stacjabenzynowa.persistance.AclResgroup</value>
+						<value>pl.noname.stacjabenzynowa.persistance.AclResource</value>
+						<value>pl.noname.stacjabenzynowa.persistance.AclResourcesResgroup</value>
+						<value>pl.noname.stacjabenzynowa.persistance.AclRole</value>
+						<value>pl.noname.stacjabenzynowa.persistance.AclRoleParent</value>
+						<value>pl.noname.stacjabenzynowa.persistance.AclRule</value>
+						<value>pl.noname.stacjabenzynowa.persistance.AclRulesPrivilege</value>
+						<value>pl.noname.stacjabenzynowa.persistance.BlockerAttempt</value>
+						<value>pl.noname.stacjabenzynowa.persistance.BlockerRecord</value>
+						<value>pl.noname.stacjabenzynowa.persistance.Bill</value>
+						<value>pl.noname.stacjabenzynowa.persistance.BillElement</value>
+						<value>pl.noname.stacjabenzynowa.persistance.CarWash</value>
+						<value>pl.noname.stacjabenzynowa.persistance.CarWashType</value>
+						<value>pl.noname.stacjabenzynowa.persistance.City</value>
+						<value>pl.noname.stacjabenzynowa.persistance.Client</value>
+						<value>pl.noname.stacjabenzynowa.persistance.ClientCompany</value>
+						<value>pl.noname.stacjabenzynowa.persistance.ClientPeople</value>
+						<value>pl.noname.stacjabenzynowa.persistance.Country</value>
+						<value>pl.noname.stacjabenzynowa.persistance.Employee</value>
+						<value>pl.noname.stacjabenzynowa.persistance.News</value>
+						<value>pl.noname.stacjabenzynowa.persistance.PetrolContainer</value>
+						<value>pl.noname.stacjabenzynowa.persistance.PetrolContainerLog</value>
+						<value>pl.noname.stacjabenzynowa.persistance.PetrolContainerMeasurement</value>
+						<value>pl.noname.stacjabenzynowa.persistance.PetrolContainersDelivery</value>
+						<value>pl.noname.stacjabenzynowa.persistance.PetrolDelivery</value>
+						<value>pl.noname.stacjabenzynowa.persistance.PetrolProvider</value>
+						<value>pl.noname.stacjabenzynowa.persistance.Prize</value>
+						<value>pl.noname.stacjabenzynowa.persistance.PrizeCategory</value>
+						<value>pl.noname.stacjabenzynowa.persistance.Product</value>
+						<value>pl.noname.stacjabenzynowa.persistance.Refueling</value>
+						<value>pl.noname.stacjabenzynowa.persistance.RefuelingType</value>
+						<value>pl.noname.stacjabenzynowa.persistance.Region</value>
+						<value>pl.noname.stacjabenzynowa.persistance.Session</value>
+					</list>
+			</property>
+		    <property name="hibernateProperties">
+		    	<props>
+			       	 <prop key="javax.persistence.validation.mode">none</prop>
+			         <prop key="hibernate.dialect">${jdbc.dialect}</prop>
+			         <prop key="hibernate.show_sql">${jdbc.show_sql}</prop>
+			         <prop key="hibernate.hbm2ddl.auto">${jdbc.hbm2ddl.auto}</prop> <!-- validate, update, create, create-drop -->
+			         <prop key="current_session_context_class">thread</prop>
+				     <prop key="exposeTransactionAwareSessionFactory">false</prop>
+		       	</props>
+		    </property>
+		</bean>
+		
+	    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+	    	<property name="sessionFactory" ref="sessionFactory"/>
+	    </bean>
+	    <mvc:interceptors>
+	    	<bean class="org.springframework.orm.hibernate4.support.OpenSessionInViewInterceptor">
+	        	<property name="sessionFactory">
+	            	<ref bean="sessionFactory" />
+	        	</property>
+	    	</bean>
+	    </mvc:interceptors>
+	    
+	    <tx:annotation-driven transaction-manager="transactionManager" />
+	    <tx:annotation-driven proxy-target-class="true"/>
+	    
+	    <task:scheduler id="taskScheduler"/>
+		<task:executor id="taskExecutor" pool-size="1"/>
+		<task:annotation-driven executor="taskExecutor" scheduler="taskScheduler"/>
+	   	
+	   	<!--  -->
+	   	
+	   	<!-- Email -->
+	   	
+	   	<bean id="emailService" class="pl.noname.stacjabenzynowa.email.EmailServiceImpl" />
+	   	
+	   	<!-- DAOs -->
+	   	
+		<bean id="genericDao" class="pl.noname.stacjabenzynowa.service.dao.impl.GenericDaoImpl" abstract="true" >
+        	<property name="sessionFactory" ref="sessionFactory" />
+    	</bean>
+	   	
+	   	<bean id="clientDao" class="pl.noname.stacjabenzynowa.service.dao.impl.ClientDaoImpl" parent="genericDao"/>
+	   	<bean id="clientPeopleDao" class="pl.noname.stacjabenzynowa.service.dao.impl.ClientPeopleDaoImpl" parent="genericDao"/>
+	   	<bean id="clientCompanyDao" class="pl.noname.stacjabenzynowa.service.dao.impl.ClientCompanyDaoImpl" parent="genericDao"/>
+	   	<bean id="employeeDao" class="pl.noname.stacjabenzynowa.service.dao.impl.EmployeeDaoImpl" parent="genericDao"/>
+	   	<bean id="aclResgroupDao" class="pl.noname.stacjabenzynowa.service.dao.impl.AclResgroupDaoImpl" parent="genericDao" />
+	   	<bean id="aclRoleDao" class="pl.noname.stacjabenzynowa.service.dao.impl.AclRoleDaoImpl" parent="genericDao" />
+	   	<bean id="blockerAttemptDao" class="pl.noname.stacjabenzynowa.service.dao.impl.BlockerAttemptDaoImpl" parent="genericDao"/>
+	   	<bean id="refuelingTypeDao" class="pl.noname.stacjabenzynowa.service.dao.impl.RefuelingTypeDaoImpl" parent="genericDao" />
+	   	<bean id="refuelingDao" class="pl.noname.stacjabenzynowa.service.dao.impl.RefuelingDaoImpl" parent="genericDao" />
+	   	<bean id="carWashDao" class="pl.noname.stacjabenzynowa.service.dao.impl.CarWashDaoImpl" parent="genericDao" />
+	   	<bean id="carWashTypeDao" class="pl.noname.stacjabenzynowa.service.dao.impl.CarWashTypeDaoImpl" parent="genericDao" />
+	   	<bean id="petrolContainerDao" class="pl.noname.stacjabenzynowa.service.dao.impl.PetrolContainerDaoImpl" parent="genericDao" />
+	   	<bean id="petrolContainerLogDao" class="pl.noname.stacjabenzynowa.service.dao.impl.PetrolContainerLogDaoImpl" parent="genericDao" />
+	    <bean id="petrolContainerMeasurementDao" class="pl.noname.stacjabenzynowa.service.dao.impl.PetrolContainerMeasurementDaoImpl" parent="genericDao" />
+	   	<bean id="petrolContainersDeliveryDao" class="pl.noname.stacjabenzynowa.service.dao.impl.PetrolContainersDeliveryDaoImpl" parent="genericDao" />
+	   	<bean id="petrolDeliveryDao" class="pl.noname.stacjabenzynowa.service.dao.impl.PetrolDeliveryDaoImpl" parent="genericDao" />
+	   	<bean id="petrolProviderDao" class="pl.noname.stacjabenzynowa.service.dao.impl.PetrolProviderDaoImpl" parent="genericDao" />
+	   	<bean id="prizeDao" class="pl.noname.stacjabenzynowa.service.dao.impl.PrizeDaoImpl" parent="genericDao" />
+	   	<bean id="prizeCategoryDao" class="pl.noname.stacjabenzynowa.service.dao.impl.PrizeCategoryDaoImpl" parent="genericDao" />
+	   	<bean id="billDao" class="pl.noname.stacjabenzynowa.service.dao.impl.BillDaoImpl" parent="genericDao"/>
+	   	<bean id="billElementDao" class="pl.noname.stacjabenzynowa.service.dao.impl.BillElementDaoImpl" parent="genericDao"/>
+	   	
+	   	<!-- Paginators -->
+	   	
+	   	<bean id="employeePaginator" class="pl.noname.stacjabenzynowa.web.paginator.EmployeeOptions" scope="session">
+	   		<aop:scoped-proxy/>
+	   	</bean>
+	  	<bean id="clientPeoplePaginator" class="pl.noname.stacjabenzynowa.web.paginator.ClientPeopleOptions" scope="session">
+	   		<aop:scoped-proxy/>
+	   	</bean>
+	   	<bean id="clientCompanyPaginator" class="pl.noname.stacjabenzynowa.web.paginator.ClientCompanyOptions" scope="session">
+	   		<aop:scoped-proxy/>
+	   	</bean>
+	   	<bean id="carWashPaginator" class="pl.noname.stacjabenzynowa.web.paginator.CarWashOptions" scope="session">
+	   		<aop:scoped-proxy/>
+	   	</bean>
+	   	<bean id="carWashTypePaginator" class="pl.noname.stacjabenzynowa.web.paginator.CarWashTypeOptions" scope="session">
+	   		<aop:scoped-proxy/>
+	   	</bean>
+	   	<bean id="petrolContainerPaginator" class="pl.noname.stacjabenzynowa.web.paginator.PetrolContainerOptions" scope="session">
+	   		<aop:scoped-proxy/>
+	   	</bean>
+	   	<bean id="petrolContainerLogPaginator" class="pl.noname.stacjabenzynowa.web.paginator.PetrolContainerLogOptions" scope="session">
+	   		<aop:scoped-proxy/>
+	   	</bean>
+	   	<bean id="petrolContainerMeasurementPaginator" class="pl.noname.stacjabenzynowa.web.paginator.PetrolContainerMeasurementOptions" scope="session">
+	   		<aop:scoped-proxy/>
+	   	</bean>
+	   	<bean id="petrolDeliveryPaginator" class="pl.noname.stacjabenzynowa.web.paginator.PetrolDeliveryOptions" scope="session">
+	   		<aop:scoped-proxy/>
+	   	</bean>
+	   	<bean id="petrolProviderPaginator" class="pl.noname.stacjabenzynowa.web.paginator.PetrolProviderOptions" scope="session">
+	   		<aop:scoped-proxy/>
+	   	</bean>
+	   	<bean id="refuelingTypePaginator" class="pl.noname.stacjabenzynowa.web.paginator.RefuelingTypeOptions" scope="session">
+	   		<aop:scoped-proxy/>
+	   	</bean>
+	   	<bean id="refuelingPaginator" class="pl.noname.stacjabenzynowa.web.paginator.RefuelingOptions" scope="session">
+	   		<aop:scoped-proxy/>
+	   	</bean>
+	   	<bean id="prizePaginator" class="pl.noname.stacjabenzynowa.web.paginator.PrizeOptions" scope="session">
+	   		<aop:scoped-proxy/>
+	   	</bean>  	
+	   	<bean id="prizeCategoryPaginator" class="pl.noname.stacjabenzynowa.web.paginator.PrizeCategoryOptions" scope="session">
+	   		<aop:scoped-proxy/>
+	   	</bean> 
+	   	<bean id="billPaginator" class="pl.noname.stacjabenzynowa.web.paginator.BillOptions" scope="session">
+	   		<aop:scoped-proxy/>
+	   	</bean>
+	   	
+	   	<!-- Services -->
+	   	
+    	<bean id="dateTimeService" class="pl.noname.stacjabenzynowa.service.impl.DateTimeServiceImpl" />
+    	<bean id="clientService" class="pl.noname.stacjabenzynowa.service.impl.ClientServiceImpl" />
+    	<bean id="employeeService" class="pl.noname.stacjabenzynowa.service.impl.EmployeeServiceImpl" />
+    	<bean id="blockerService" class="pl.noname.stacjabenzynowa.service.impl.BlockerServiceImpl" />  
+		<bean id="aclService" class="pl.noname.stacjabenzynowa.service.impl.AclServiceImpl" />
+		<bean id="refuelingService" class="pl.noname.stacjabenzynowa.service.impl.RefuelingServiceImpl" />
+		<bean id="carWashService" class="pl.noname.stacjabenzynowa.service.impl.CarWashServiceImpl" />
+		<bean id="petrolService" class="pl.noname.stacjabenzynowa.service.impl.PetrolServiceImpl" />
+		<bean id="prizeService" class="pl.noname.stacjabenzynowa.service.impl.PrizeServiceImpl" />
+		<bean id="billService" class="pl.noname.stacjabenzynowa.service.impl.BillServiceImpl" />
+		
+		<!-- Security -->
+		
+		<bean id="employeeAuthenticationProvider" class="pl.noname.stacjabenzynowa.security.EmployeeAuthenticationProvider" />
+		
+		<bean id="clientAuthenticationProvider" class="pl.noname.stacjabenzynowa.security.ClientAuthenticationProvider" />
+		
+		<bean id="assemblerService" class="pl.noname.stacjabenzynowa.security.Assembler" /> 
+
+		<bean id="clientDetailsService" class="pl.noname.stacjabenzynowa.security.ClientDetailsService" />
+
+		<bean id="employeeDetailsService" class="pl.noname.stacjabenzynowa.security.EmployeeDetailsService" />
+		<!-- 
+		<bean class="org.springframework.security.authentication.dao.ReflectionSaltSource" id="saltSource">
+	    	<property name="userPropertyToUse" value="salt"/>
+		</bean>
+		
+		<bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" /> -->		
+		
+		<!-- Hibernate Validator -->
+		
+		<mvc:annotation-driven conversion-service="FormattingConversionService" validator="ValidatorFactory"/>	
+	
+		<bean id="FormattingConversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean" />
+		
+		<bean id="ValidatorFactory" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+			<property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+		</bean>
+		
+		<!-- Creates reCaptcha Instance  -->  
+		
+		<bean id="reCaptcha" class="net.tanesha.recaptcha.ReCaptchaImpl">  
+		    <property name="privateKey" value="${recaptcha.private.key}" />  
+			<property name="publicKey" value="${recaptcha.public.key}" />
+			<property name="recaptchaServer" value="${recaptcha.server.url}" />  
+		    <property name="includeNoscript" value="false" />  
+		</bean> 
+		
+		<bean id="userOptions" class="java.util.HashMap" scope="session">
+			<aop:scoped-proxy/>
+		</bean>
+	</beans>	
+	
+	<beans profile="dev,prod">
+	 	<!-- Tiles -->
+	   	
+	   	<bean id="tilesviewResolver" class="org.springframework.web.servlet.view.tiles2.TilesViewResolver" p:order="0"/>
+		  
+		<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+		 	<property name="definitions">
+		   		<list>
+		    		<value>/WEB-INF/spring/tiles.xml</value>
+		   		</list>
+		  	</property>
+		</bean> 
+		
+		<!-- I18N -->
+		
+		<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		     <property name="defaultLocale" value="pl" />
+		</bean>
+	
+		<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		    <property name="useCodeAsDefaultMessage" value="true" />
+		    <property name="basenames">
+		         <list>
+		            <value>classpath:messages</value>
+		         </list>
+		    </property>
+		    <property name="cacheSeconds" value="0" />
+		    <property name="defaultEncoding" value="UTF-8"></property>
+		</bean>
+		
+		<bean id="validator"
+		    class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		    <property name="validationMessageSource" ref="messageSource" />
+		</bean>	
+		
+		<mvc:interceptors>
+		  	<mvc:interceptor>
+		     	<mvc:mapping path="/**"/>
+	         	<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" >
+	             	<property name="paramName" value="language" />
+	         	</bean>
+	    	</mvc:interceptor>
+	    	<mvc:interceptor>
+	    		<mvc:mapping path="/admin/**" />
+	    		<bean class="pl.noname.stacjabenzynowa.web.interceptor.LoggedEmployeeInterceptor"></bean>
+	    	</mvc:interceptor>
+		</mvc:interceptors>
+	</beans>
+</beans>

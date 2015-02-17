@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+   	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   	xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	 	http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/jdbc
+		http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+		http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+        
+	<context:component-scan base-package="pl.noname.stacjabenzynowa.web" />
+
+	<mvc:resources mapping="/static/**" location="/WEB-INF/static/"/>
+	<mvc:resources mapping="/crossdomain.xml" location="/"/>
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>	
+	
+	<beans profile="test">
+		<bean id="applicationProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		    <property name="location" value="classpath:env/test.properties"/>
+		</bean>
+	</beans>
+
+	<beans profile="dev">
+		<bean id="applicationProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	    	<property name="location" value="classpath:env/dev.properties"/>
+		</bean>
+	</beans>
+	
+	<beans profile="prod">
+		<bean id="applicationProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		    <property name="location" value="classpath:env/prod.properties"/>
+		</bean>	
+	</beans>
+	
+	<beans profile="dev,prod,test">
+			<bean id="reCaptcha" class="net.tanesha.recaptcha.ReCaptchaImpl">  
+		    <property name="privateKey" value="${recaptcha.private.key}" />  
+			<property name="publicKey" value="${recaptcha.public.key}" />
+			<property name="recaptchaServer" value="${recaptcha.server.url}" />  
+		    <property name="includeNoscript" value="false" />  
+		</bean> 
+		
+		<bean id="userOptions" class="java.util.HashMap" scope="session">
+			<aop:scoped-proxy/>
+		</bean>
+	</beans>	
+	
+	<beans profile="dev,prod">
+	 	<!-- Tiles -->
+	   	
+	   	<bean id="tilesviewResolver" class="org.springframework.web.servlet.view.tiles2.TilesViewResolver" p:order="0"/>
+		  
+		<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+		 	<property name="definitions">
+		   		<list>
+		    		<value>/WEB-INF/spring/tiles.xml</value>
+		   		</list>
+		  	</property>
+		</bean> 
+		
+		<!-- I18N -->
+		
+		<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		     <property name="defaultLocale" value="pl" />
+		</bean>
+	
+		<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		    <property name="useCodeAsDefaultMessage" value="true" />
+		    <property name="basenames">
+		         <list>
+		            <value>classpath:messages</value>
+		         </list>
+		    </property>
+		    <property name="cacheSeconds" value="0" />
+		    <property name="defaultEncoding" value="UTF-8"></property>
+		</bean>
+		
+		<bean id="validator"
+		    class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		    <property name="validationMessageSource" ref="messageSource" />
+		</bean>	
+		
+		<mvc:interceptors>
+		  	<mvc:interceptor>
+		     	<mvc:mapping path="/**"/>
+	         	<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" >
+	             	<property name="paramName" value="language" />
+	         	</bean>
+	    	</mvc:interceptor>
+	    	<mvc:interceptor>
+	    		<mvc:mapping path="/admin/**" />
+	    		<bean class="pl.noname.stacjabenzynowa.web.interceptor.LoggedEmployeeInterceptor"></bean>
+	    	</mvc:interceptor>
+		</mvc:interceptors>
+	</beans>
+</beans>

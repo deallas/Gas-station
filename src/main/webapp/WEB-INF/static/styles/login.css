@@ -1,0 +1,158 @@
+* { 
+	margin: 0; 
+	padding: 0; 
+}
+
+#page {
+	display: table;
+	overflow: hidden;
+	margin: 0px auto;
+	height: 100%;
+}
+
+*:first-child+html #page { 
+	position:relative;
+}
+
+* html #page {
+	position:relative;
+}
+
+#content_container {
+	display:table-cell;
+	vertical-align: middle;
+}
+
+*:first-child+html #content_container {
+	position:absolute;
+	top:50%;
+}
+
+* html #content_container {
+	position:absolute;
+	top:50%;
+}
+
+*:first-child+html #content {
+	position:relative;
+	top:-50%;
+}
+
+* html #content {
+	position:relative;
+	top:-50%;
+}
+
+html,body {
+	height:100%;
+}
+
+body {
+  	background-color: #FDFDFD;
+}
+
+#form-signin {
+  	background-color: #fff;
+  	border: 1px solid #e5e5e5;
+  	-webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    box-shadow: 0 1px 2px rgba(0,0,0,.05);
+    position: relative;
+}
+
+#form-signin-data {
+	padding: 0px 29px;
+}
+
+#form-signin .form-actions {
+	margin-bottom: 0 !important;
+}
+
+#form-signin .well {
+	border-width: 0;
+	border-bottom-width: 1px;
+	border-radius: 0;
+	-webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    font-size: 15px;
+    padding: 10px 20px 10px 65px;
+}
+
+#form-signin .well h3 {
+	margin: 0;
+}
+
+#form-signin .form-actions {
+	padding-left: 165px;
+}
+
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+	margin-bottom: 10px;
+}
+
+#form-signin-logo {
+	position: absolute;
+	left: 20px;
+	top: 10px;
+}
+
+.alert-error {
+	margin: 0 auto 20px;
+}
+
+#login-container {
+	margin: 0 auto;
+	float: none;
+}
+
+.alert p {
+    padding-top: 10px;
+}
+
+.form-horizontal .controls {
+    margin-left: 140px;
+}
+
+.form-horizontal .control-label {
+	width: 120px;	
+}
+
+footer {
+	color: #AAA;
+	text-align: center;
+	font-size: 11px;
+}
+
+#language-container {
+	font-size: 11px;
+	text-align: right;	
+}
+
+#language-title {
+	display: inline-block;
+}
+
+#language-list {
+	list-style: none;
+	display: inline-block;
+	margin: 0;
+}
+
+#language-list li {
+	display: inline-block;
+	padding: 0 2px;	
+}
+
+#recaptcha-container {
+	margin-left: 30px;
+}
+
+#login-buttons {
+	padding-left: 25% !important;
+	padding-right: 25%;
+	text-align: center;
+}

@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+	<definition name="default">
+		<put-attribute name="appname" value="Stacja benzynowa" />
+		<put-attribute name="footer" value="/WEB-INF/views/footer.jsp" />
+		<put-attribute name="language" value="/WEB-INF/views/language.jsp" />
+		<put-list-attribute name="styles">
+			<add-attribute type="string" value="/static/bootstrap/css/bootstrap.css" />
+			<add-attribute type="string" value="/static/bootstrap/css/bootstrap-responsive.css" />
+			<add-attribute type="string" value="/static/FontAwesome/css/font-awesome.min.css" />
+		</put-list-attribute>
+		<put-list-attribute name="scripts">
+			<add-attribute type="string" value="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" />
+			<add-attribute type="string" value="/static/bootstrap/js/bootstrap.min.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="login" extends="default" template="/WEB-INF/layouts/loginLayout.jsp">
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute type="string" value="/static/styles/login.css" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="home" extends="default" template="/WEB-INF/layouts/homeLayout.jsp">
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute type="string" value="/static/styles/home.css" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="panel" extends="default" template="/WEB-INF/layouts/panelLayout.jsp">
+		<put-attribute name="globalMenu" value="/WEB-INF/views/_menus/globalMenu.jsp" />
+		<put-attribute name="currentGlobalMenu" value="" />
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute type="string" value="/static/styles/panel.css" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="nomenu" extends="panel" template="/WEB-INF/layouts/noMenuLayout.jsp"></definition>
+	
+	<definition name="employeepanel" extends="panel">
+		<put-attribute name="currentGlobalMenu" value="employee" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuemployee.jsp" />
+	</definition>
+	
+	<definition name="clientpanel" extends="panel">
+		<put-attribute name="currentGlobalMenu" value="client" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuclient.jsp" />
+	</definition>
+	
+	<definition name="accountpanel" extends="panel">
+		<put-attribute name="currentGlobalMenu" value="account" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuaccount.jsp" />
+	</definition>
+	
+	<definition name="petrolpanel" extends="panel">
+		<put-attribute name="currentGlobalMenu" value="petrol" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menupetrol.jsp" />
+	</definition>
+	
+	<definition name="monitoringpanel" extends="panel">
+		<put-attribute name="currentGlobalMenu" value="monitoring" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menumonitoring.jsp" />
+	</definition>
+	
+	<definition name="carwashpanel" extends="panel">
+		<put-attribute name="currentGlobalMenu" value="carwash" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menucarwash.jsp" />
+	</definition>
+	
+	<definition name="billpanel" extends="panel">
+		<put-attribute name="currentGlobalMenu" value="bill" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menubill.jsp" />
+	</definition>
+
+	<definition name="loyaltypanel" extends="panel">
+		<put-attribute name="currentGlobalMenu" value="loyalty" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuloyalty.jsp" />
+	</definition>
+
+	<!-- Panel -->
+
+	<definition name="emppanel:login" extends="login">
+		<put-attribute name="title" value="title.emppanel.login" />
+		<put-attribute name="body" value="/WEB-INF/views/emppanel/login.jsp" />
+	</definition>
+	
+	<definition name="emppanel:index" extends="nomenu">
+		<put-attribute name="title" value="title.emppanel.index" />
+		<put-attribute name="body" value="/WEB-INF/views/emppanel/index.jsp" />
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute type="string" value="/static/styles/jquery.jqplot.min.css" />
+		</put-list-attribute>
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/jquery.jqplot.min.js" />
+			<add-attribute type="string" value="/static/scripts/jqplot.meterGaugeRenderer.min.js" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="emppanel:account" extends="accountpanel">
+		<put-attribute name="title" value="title.emppanel.account" />
+		<put-attribute name="body" value="/WEB-INF/views/emppanel/account.jsp" />
+	</definition>
+	
+	<definition name="emppanel:denied" extends="home" >
+		<put-attribute name="title" value="title.denied" />
+		<put-attribute name="body" value="/WEB-INF/views/emppanel/denied.jsp" />
+	</definition>
+	
+	<!-- ClientPanel -->
+	
+	<definition name="clientpanel:index" extends="nomenu">
+		<put-attribute name="title" value="title.clientpanel.index" />
+		<put-attribute name="body" value="/WEB-INF/views/clientpanel/index.jsp" />
+	</definition>
+
+	<definition name="clientpanel:account" extends="accountpanel">
+		<put-attribute name="title" value="title.clientpanel.account" />
+		<put-attribute name="body" value="/WEB-INF/views/clientpanel/account.jsp" />
+	</definition>
+	
+	<!-- Employee -->
+	
+	<definition name="employee:add" extends="employeepanel">
+		<put-attribute name="title" value="title.employee.add" />
+		<put-attribute name="body" value="/WEB-INF/views/employee/add.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/passwordGenerator.js" />
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+			<add-attribute type="string" value="/static/scripts/employeeFormMask.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="employee:edit" extends="employeepanel">
+		<put-attribute name="title" value="title.employee.edit" />
+		<put-attribute name="body" value="/WEB-INF/views/employee/edit.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/passwordGenerator.js" />
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+			<add-attribute type="string" value="/static/scripts/employeeFormMask.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="employee:show" extends="employeepanel">
+		<put-attribute name="title" value="title.employee.show" />
+		<put-attribute name="body" value="/WEB-INF/views/employee/show.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+	</definition>
+	
+	<definition name="employee:list" extends="employeepanel">
+		<put-attribute name="title" value="title.employee.list" />
+		<put-attribute name="body" value="/WEB-INF/views/employee/list.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/listOptions.js" />
+			<add-attribute type="string" value="/static/scripts/confirm.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<!-- Client -->
+	
+	<definition name="client:add:people" extends="clientpanel">
+		<put-attribute name="title" value="title.client.add.people" />
+		<put-attribute name="body" value="/WEB-INF/views/client/people/add.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/passwordGenerator.js" />
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+			<add-attribute type="string" value="/static/scripts/employeeFormMask.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="client:add:company" extends="clientpanel">
+		<put-attribute name="title" value="title.client.add.company" />
+		<put-attribute name="body" value="/WEB-INF/views/client/company/add.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/passwordGenerator.js" />
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+			<add-attribute type="string" value="/static/scripts/employeeFormMask.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="client:edit:people" extends="clientpanel">
+		<put-attribute name="title" value="title.client.edit.people" />
+		<put-attribute name="body" value="/WEB-INF/views/client/people/edit.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/passwordGenerator.js" />
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+			<add-attribute type="string" value="/static/scripts/employeeFormMask.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="client:edit:company" extends="clientpanel">
+		<put-attribute name="title" value="title.client.edit.company" />
+		<put-attribute name="body" value="/WEB-INF/views/client/company/edit.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/passwordGenerator.js" />
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+			<add-attribute type="string" value="/static/scripts/employeeFormMask.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="client:show:people" extends="clientpanel">
+		<put-attribute name="title" value="title.client.show.people" />
+		<put-attribute name="body" value="/WEB-INF/views/client/people/show.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+	</definition>
+	
+	<definition name="client:show:company" extends="clientpanel">
+		<put-attribute name="title" value="title.client.show.company" />
+		<put-attribute name="body" value="/WEB-INF/views/client/company/show.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+	</definition>
+	
+	<definition name="client:list:people" extends="clientpanel">
+		<put-attribute name="title" value="title.client.list.people" />
+		<put-attribute name="body" value="/WEB-INF/views/client/people/list.jsp" />
+		<put-list-attribute name="scripts" inherit="true"> 
+			<add-attribute type="string" value="/static/scripts/listOptions.js" />
+			<add-attribute type="string" value="/static/scripts/confirm.js" />
+		</put-list-attribute>
+	</definition>
+	<definition name="client:list:company" extends="clientpanel">
+		<put-attribute name="title" value="title.client.list.company" />
+		<put-attribute name="body" value="/WEB-INF/views/client/company/list.jsp" />
+		<put-list-attribute name="scripts" inherit="true"> 
+			<add-attribute type="string" value="/static/scripts/listOptions.js" />
+			<add-attribute type="string" value="/static/scripts/confirm.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<!-- Account -->
+	
+	<definition name="account:edit:password" extends="accountpanel">
+		<put-attribute name="title" value="title.account.editpassword" />
+		<put-attribute name="body" value="/WEB-INF/views/account/password/edit.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/passwordGenerator.js" />
+		</put-list-attribute>
+	</definition>
+	<definition name="account:edit" extends="accountpanel">
+		<put-attribute name="title" value="title.account.edit" />
+		<put-attribute name="body" value="/WEB-INF/views/account/data/edit.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+			<add-attribute type="string" value="/static/scripts/employeeFormMask.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="account:list:prize" extends="accountpanel">
+		<put-attribute name="title" value="label.prize.history" />
+		<put-attribute name="body" value="/WEB-INF/views/account/prize/list.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/listOptions.js" />
+			<add-attribute type="string" value="/static/scripts/confirm.js" />
+		</put-list-attribute>
+	</definition>
+			
+	<!-- Bill -->
+	
+	<definition name="bill:list" extends="billpanel">
+		<put-attribute name="title" value="label.menu.bill.header" />
+		<put-attribute name="body" value="/WEB-INF/views/bill/list.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/listOptions.js" />
+			<add-attribute type="string" value="/static/scripts/confirm.js" />
+		</put-list-attribute>
+	</definition>	
+	
+	<definition name="bill:show" extends="billpanel">
+		<put-attribute name="title" value="title.bill.show" />
+		<put-attribute name="body" value="/WEB-INF/views/bill/show.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+	</definition>
+	
+	<definition name="bill:checkout" extends="billpanel">
+		<put-attribute name="title" value="title.bill.checkout" />
+		<put-attribute name="body" value="/WEB-INF/views/bill/checkout.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+	</definition>		
+			
+	<!-- CarWash -->
+	
+	<definition name="carwash:list" extends="carwashpanel">
+		<put-attribute name="title" value="label.menu.carwash.header" />
+		<put-attribute name="body" value="/WEB-INF/views/carwash/list.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/listOptions.js" />
+			<add-attribute type="string" value="/static/scripts/confirm.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="carwash:add" extends="carwashpanel">
+		<put-attribute name="title" value="label.menu.carwash.add" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/carwash/add.jsp" />
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute type="string" value="/static/bootstrap/css/bootstrap-datetimepicker.min.css" />
+		</put-list-attribute>
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/bootstrap/js/bootstrap-datetimepicker.min.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="carwash:edit" extends="carwashpanel">
+		<put-attribute name="title" value="label.menu.carwash.edit" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/carwash/edit.jsp" />
+	</definition>
+
+	<!-- CarWashTypes -->
+	
+	<definition name="carwashtype:list" extends="carwashpanel">
+		<put-attribute name="title" value="title.carwashtype.list" />
+		<put-attribute name="body" value="/WEB-INF/views/carwashtype/list.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/listOptions.js" />
+			<add-attribute type="string" value="/static/scripts/confirm.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="carwashtype:add" extends="carwashpanel">
+		<put-attribute name="title" value="title.carwashtype.add" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/carwashtype/add.jsp" />
+	</definition>
+	
+	<definition name="carwashtype:edit" extends="carwashpanel">
+		<put-attribute name="title" value="title.carwashtype.edit" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/carwashtype/edit.jsp" />
+	</definition>
+	
+	<!-- Petrol -->
+	
+	<!-- Petrol Container -->
+	
+	<definition name="petrol:list:container" extends="petrolpanel">
+		<put-attribute name="title" value="label.menu.petrol.header" />
+		<put-attribute name="body" value="/WEB-INF/views/petrol/container/list.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/listOptions.js" />
+			<add-attribute type="string" value="/static/scripts/confirm.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="petrol:add:container" extends="petrolpanel">
+		<put-attribute name="title" value="title.petrol.container.add" />
+		<put-attribute name="body" value="/WEB-INF/views/petrol/container/add.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+	</definition>
+	
+	<definition name="petrol:edit:container" extends="petrolpanel">
+		<put-attribute name="title" value="title.petrol.container.edit" />
+		<put-attribute name="body" value="/WEB-INF/views/petrol/container/edit.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+	</definition>
+	
+	<!-- Petrol Provider -->
+	
+	<definition name="petrol:list:provider" extends="petrolpanel">
+		<put-attribute name="title" value="label.menu.petrol.header" />
+		<put-attribute name="body" value="/WEB-INF/views/petrol/provider/list.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/listOptions.js" />
+			<add-attribute type="string" value="/static/scripts/confirm.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="petrol:add:provider" extends="petrolpanel">
+		<put-attribute name="title" value="title.petrol.provider.add" />
+		<put-attribute name="body" value="/WEB-INF/views/petrol/provider/add.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="petrol:edit:provider" extends="petrolpanel">
+		<put-attribute name="title" value="title.petrol.provider.edit" />
+		<put-attribute name="body" value="/WEB-INF/views/petrol/provider/edit.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<!-- Petrol Delivery -->
+	
+	<definition name="petrol:list:delivery" extends="petrolpanel">
+		<put-attribute name="title" value="label.menu.petrol.header" />
+		<put-attribute name="body" value="/WEB-INF/views/petrol/delivery/list.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/listOptions.js" />
+			<add-attribute type="string" value="/static/scripts/confirm.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="petrol:add:delivery" extends="petrolpanel">
+		<put-attribute name="title" value="title.petrol.containerdelivery.add" />
+		<put-attribute name="body" value="/WEB-INF/views/petrol/delivery/add.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute type="string" value="/static/bootstrap/css/bootstrap-datetimepicker.min.css" />
+		</put-list-attribute>
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/bootstrap/js/bootstrap-datetimepicker.min.js" />
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+		</put-list-attribute>
+	</definition>
+	
+	
+	<definition name="petrol:edit:delivery" extends="petrolpanel">
+		<put-attribute name="title" value="title.petrol.containerdelivery.edit" />
+		<put-attribute name="body" value="/WEB-INF/views/petrol/delivery/edit.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute type="string" value="/static/bootstrap/css/bootstrap-datetimepicker.min.css" />
+		</put-list-attribute>
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/bootstrap/js/bootstrap-datetimepicker.min.js" />
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<!-- Refueling -->
+	
+	<definition name="petrol:list:refueling" extends="petrolpanel">
+		<put-attribute name="title" value="label.menu.petrol.header" />
+		<put-attribute name="body" value="/WEB-INF/views/petrol/refueling/list.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/listOptions.js" />
+			<add-attribute type="string" value="/static/scripts/confirm.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="petrol:add:refueling" extends="petrolpanel">
+		<put-attribute name="title" value="title.petrol.containerrefueling.add" />
+		<put-attribute name="body" value="/WEB-INF/views/petrol/refueling/add.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute type="string" value="/static/bootstrap/css/bootstrap-datetimepicker.min.css" />
+		</put-list-attribute>
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/bootstrap/js/bootstrap-datetimepicker.min.js" />
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="petrol:edit:refueling" extends="petrolpanel">
+		<put-attribute name="title" value="title.petrol.containerrefueling.edit" />
+		<put-attribute name="body" value="/WEB-INF/views/petrol/refueling/edit.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute type="string" value="/static/bootstrap/css/bootstrap-datetimepicker.min.css" />
+		</put-list-attribute>
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/bootstrap/js/bootstrap-datetimepicker.min.js" />
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<!-- Refueling Type -->
+	
+	<definition name="petrol:list:refuelingtype" extends="petrolpanel">
+		<put-attribute name="title" value="label.menu.petrol.header" />
+		<put-attribute name="body" value="/WEB-INF/views/petrol/refuelingtype/list.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/listOptions.js" />
+			<add-attribute type="string" value="/static/scripts/confirm.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="petrol:add:refuelingtype" extends="petrolpanel">
+		<put-attribute name="title" value="title.petrol.refuelingtype.add" />
+		<put-attribute name="body" value="/WEB-INF/views/petrol/refuelingtype/add.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="petrol:edit:refuelingtype" extends="petrolpanel">
+		<put-attribute name="title" value="title.petrol.refuelingtype.edit" />
+		<put-attribute name="body" value="/WEB-INF/views/petrol/refuelingtype/edit.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<!-- Monitoring -->
+	
+	<!-- Petrol Measurement -->
+	
+	<definition name="monitoring:list:measurement" extends="monitoringpanel">
+		<put-attribute name="title" value="label.menu.petrol.header" />
+		<put-attribute name="body" value="/WEB-INF/views/monitoring/measurement/list.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/listOptions.js" />
+			<add-attribute type="string" value="/static/scripts/confirm.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="monitoring:add:measurement" extends="monitoringpanel">
+		<put-attribute name="title" value="title.petrol.containermeasurement.add" />
+		<put-attribute name="body" value="/WEB-INF/views/monitoring/measurement/add.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute type="string" value="/static/bootstrap/css/bootstrap-datetimepicker.min.css" />
+		</put-list-attribute>
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/bootstrap/js/bootstrap-datetimepicker.min.js" />
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="monitoring:edit:measurement" extends="monitoringpanel">
+		<put-attribute name="title" value="title.petrol.containermeasurement.edit" />
+		<put-attribute name="body" value="/WEB-INF/views/monitoring/measurement/edit.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute type="string" value="/static/bootstrap/css/bootstrap-datetimepicker.min.css" />
+		</put-list-attribute>
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/bootstrap/js/bootstrap-datetimepicker.min.js" />
+			<add-attribute type="string" value="/static/scripts/jquery.maskedinput.min.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<!-- Petrol Container Log -->
+	
+	<definition name="monitoring:list:containerlog" extends="monitoringpanel">
+		<put-attribute name="title" value="label.menu.petrol.header" />
+		<put-attribute name="body" value="/WEB-INF/views/monitoring/log/list.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/listOptions.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<!-- Loyalty -->
+	
+	<!-- Prize -->
+	
+	<definition name="loyalty:list:prize" extends="loyaltypanel">
+		<put-attribute name="title" value="label.prizes" />
+		<put-attribute name="body" value="/WEB-INF/views/loyalty/prize/list.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/listOptions.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<!-- Prize Category -->
+	
+	<definition name="loyalty:list:category" extends="loyaltypanel">
+		<put-attribute name="title" value="label.prize.categories" />
+		<put-attribute name="body" value="/WEB-INF/views/loyalty/category/list.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/listOptions.js" />
+			<add-attribute type="string" value="/static/scripts/confirm.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="loyalty:add:category" extends="loyaltypanel">
+		<put-attribute name="title" value="label.prize.category.add" />
+		<put-attribute name="body" value="/WEB-INF/views/loyalty/category/add.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+	</definition>
+	
+	<definition name="loyalty:edit:category" extends="loyaltypanel">
+		<put-attribute name="title" value="label.prize.category.edit" />
+		<put-attribute name="body" value="/WEB-INF/views/loyalty/category/edit.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/_menus/menuback.jsp" />
+	</definition>
+	
+	<!-- Home -->
+	<definition name="home:index" extends="home">
+		<put-attribute name="title" value="title.home" />
+		<put-attribute name="body" value="/WEB-INF/views/home/index.jsp" />
+	</definition>
+	
+	<definition name="home:pricelist" extends="home">
+		<put-attribute name="title" value="title.pricelist" />
+		<put-attribute name="body" value="/WEB-INF/views/home/pricelist.jsp" />
+	</definition>
+	
+	<definition name="home:contact" extends="home">
+		<put-attribute name="title" value="title.contact" />
+		<put-attribute name="body" value="/WEB-INF/views/home/contact.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/googleMap.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="home:loyalty" extends="home">
+		<put-attribute name="title" value="label.loyalty" />
+		<put-attribute name="body" value="/WEB-INF/views/home/loyalty.jsp" />
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute type="string" value="/static/scripts/confirm.js" />
+		</put-list-attribute>
+	</definition>
+</tiles-definitions>
